@@ -1,19 +1,18 @@
 import {
   Box,
   Button,
-  Checkbox,
   ClientOnly,
   Group,
-  HStack,
   Heading,
   Input,
-  Progress,
-  RadioGroup,
   Skeleton,
   VStack,
 } from "@chakra-ui/react";
 import type { MetaFunction } from "@remix-run/node";
-import { ColorModeButton } from "../components/ui/color-mode";
+import { useState, useRef } from "react";
+
+import { ColorModeButton } from "@/components/ui/color-mode";
+import { DataListItem, DataListRoot } from "@/components/ui/data-list";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,56 +21,52 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+const messages = [
+  {
+    id: "message-1",
+    author: "Will",
+    content: "This is a message",
+  },
+];
+
 export default function Index() {
+  const [nextId, setNextId] = useState(2);
+  const messageRef = useRef<HTMLInputElement>(null);
+
+  const sendMessage = () => {
+    if (!messageRef.current?.value) return;
+
+    messages.push({
+      author: "Will",
+      id: `message-${nextId}`,
+      content: messageRef.current.value,
+    });
+
+    setNextId(nextId + 1);
+
+    messageRef.current.value = "";
+  };
+
   return (
     <Box textAlign="center" fontSize="xl" pt="30vh">
       <VStack gap="8">
         <Heading size="2xl" letterSpacing="tight">
-          Welcome to Chakra UI v3 + Remix
+          Testing DX Chat
         </Heading>
 
-        <HStack gap="10">
-          <Checkbox.Root defaultChecked>
-            <Checkbox.HiddenInput />
-            <Checkbox.Control>
-              <Checkbox.Indicator />
-            </Checkbox.Control>
-            <Checkbox.Label>Checkbox</Checkbox.Label>
-          </Checkbox.Root>
-
-          <RadioGroup.Root display="inline-flex" defaultValue="1">
-            <RadioGroup.Item value="1" mr="2">
-              <RadioGroup.ItemHiddenInput />
-              <RadioGroup.ItemControl>
-                <RadioGroup.ItemIndicator />
-              </RadioGroup.ItemControl>
-              <RadioGroup.ItemText lineHeight="1">Radio</RadioGroup.ItemText>
-            </RadioGroup.Item>
-
-            <RadioGroup.Item value="2">
-              <RadioGroup.ItemHiddenInput />
-              <RadioGroup.ItemControl>
-                <RadioGroup.ItemIndicator />
-              </RadioGroup.ItemControl>
-              <RadioGroup.ItemText lineHeight="1">Radio</RadioGroup.ItemText>
-            </RadioGroup.Item>
-          </RadioGroup.Root>
-        </HStack>
-
-        <Progress.Root width="300px" value={65} striped animated>
-          <Progress.Track>
-            <Progress.Range />
-          </Progress.Track>
-        </Progress.Root>
-
-        <HStack>
-          <Button>Lets go</Button>
-          <Button variant="outline">bun install @chakra-ui/react</Button>
-        </HStack>
+        <DataListRoot orientation="horizontal">
+          {messages.map((message) => (
+            <DataListItem
+              key={message.id}
+              label={message.author}
+              value={message.content}
+            />
+          ))}
+        </DataListRoot>
 
         <Group width="90%">
-          <Input width="100%" />
-          <Button>Send</Button>
+          <Input ref={messageRef} width="100%" />
+          <Button onClick={sendMessage}>Send</Button>
         </Group>
       </VStack>
 
