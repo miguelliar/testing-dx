@@ -15,7 +15,7 @@ import {
 import { ColorModeButton } from "@/components/ui/color-mode";
 import { DataListItem, DataListRoot } from "@/components/ui/data-list";
 
-import { UserList } from "@/components/UserList";
+import { ControlPanel } from "@/components/ControlPanel";
 
 export const meta: MetaFunction = () => {
   return [
@@ -105,7 +105,7 @@ export default function Index() {
       <Box pos="absolute" top="4" right="4">
         <ClientOnly fallback={<Skeleton w="10" h="10" rounded="md" />}>
           <ColorModeButton />
-          <UserList />
+          <ControlPanel />
         </ClientOnly>
       </Box>
     </Box>
