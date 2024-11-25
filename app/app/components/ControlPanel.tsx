@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
-import { LuUserCircle, LuUsers } from "react-icons/lu";
-import { Group } from "@chakra-ui/react";
+import { LuUserCircle, LuUsers, LuPencil, LuCheck, LuX } from "react-icons/lu";
+import { Group,
+  Input,
+  Button,
+  Flex,
+  Text,
+  IconButton } from "@chakra-ui/react";
 
-import { Button } from "@/components/ui/button";
 import {
   DrawerActionTrigger,
   DrawerBackdrop,
@@ -28,8 +32,8 @@ export const ControlPanel = () => {
   const [controlMode, setControlMode] = useState<ControlMode>("userList");
   const [users, setUsers] = useState<User[]>([]);
   const [profile, setProfile] = useState<Profile | null>(null);
-
-
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedProfile, setEditedProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -43,8 +47,25 @@ export const ControlPanel = () => {
   useEffect(() => {
     fetch('/fixtures/profile.json')
       .then(res => res.json())
-      .then(data => setProfile(data));
+      .then(data => {
+        setProfile(data);
+        setEditedProfile(data);
+      });
   }, []);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleCancel = () => {
+    setEditedProfile(profile);
+    setIsEditing(false);
+  };
+
+  const handleSave = () => {
+    setProfile(editedProfile);
+    setIsEditing(false);
+  };
 
   return (
     <DrawerRoot>
@@ -84,7 +105,76 @@ export const ControlPanel = () => {
                   </ul>
                 );
               case "profile":
-                return profile ? <p>{profile.name} - {profile.about}</p> : 'Loading...';
+                return (
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2 rounded-lg border p-4">
+                      <Flex justify="space-between" align="center" mb={2}>
+                        <Flex align="center" gap={2}>
+                          <LuUserCircle className="h-6 w-6" />
+                          <Text fontWeight="semibold">Profile</Text>
+                        </Flex>
+                        {!isEditing ? (
+                          <IconButton
+                            aria-label="Edit profile"
+                            size="sm"
+                            onClick={handleEdit}
+                          ><LuPencil /></IconButton>
+                        ) : (
+                          <Flex gap={2}>
+                            <IconButton
+                              aria-label="Save changes"
+                              size="sm"
+                              colorScheme="green"
+                              onClick={handleSave}
+                            ><LuCheck /></IconButton>
+                            <IconButton
+                              aria-label="Cancel editing"
+                              size="sm"
+                              colorScheme="red"
+                              onClick={handleCancel}
+                            ><LuX /></IconButton>
+                          </Flex>
+                        )}
+                      </Flex>
+
+                      {profile && editedProfile && (
+                        <Flex direction="column" gap={3}>
+                          <Flex direction="column">
+                            <Text fontSize="sm" fontWeight="medium">Name</Text>
+                            {isEditing ? (
+                              <Input
+                                value={editedProfile.name}
+                                onChange={(e) => setEditedProfile({
+                                  ...editedProfile,
+                                  name: e.target.value
+                                })}
+                                size="sm"
+                              />
+                            ) : (
+                              <Text>{profile.name}</Text>
+                            )}
+                          </Flex>
+
+                          <Flex direction="column">
+                            <Text fontSize="sm" fontWeight="medium">About</Text>
+                            {isEditing ? (
+                              <Input
+                                value={editedProfile.about}
+                                onChange={(e) => setEditedProfile({
+                                  ...editedProfile,
+                                  about: e.target.value
+                                })}
+                                size="sm"
+                              />
+                            ) : (
+                              <Text>{profile.about}</Text>
+                            )}
+                          </Flex>
+                        </Flex>
+                      )}
+                    </div>
+                  </div>
+                );
             }
           })()}
         </DrawerBody>
