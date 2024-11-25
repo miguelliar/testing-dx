@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "name": "Will",
+        "about": "The author of this workshop"
+    },
+    {
+        "id": 2,
+        "name": "Diane",
+        "about": "Will's partner"
+    },
+    {
+        "id": 3,
+        "name": "Marcus",
+        "about": "Senior software developer who loves rock climbing"
+    },
+    {
+        "id": 4,
+        "name": "Sarah",
+        "about": "UX designer with a passion for accessibility"
+    },
+    {
+        "id": 5,
+        "name": "Raj",
+        "about": "Full-stack developer and amateur chef"
+    },
+    {
+        "id": 6,
+        "name": "Elena",
+        "about": "Data scientist who plays classical piano"
+    },
+    {
+        "id": 7,
+        "name": "James",
+        "about": "DevOps engineer and vintage car collector"
+    },
+    {
+        "id": 8,
+        "name": "Maya",
+        "about": "Frontend specialist and yoga instructor"
+    },
+    {
+        "id": 9,
+        "name": "Alex",
+        "about": "Mobile app developer and gaming enthusiast"
+    },
+    {
+        "id": 10,
+        "name": "Luna",
+        "about": "QA engineer who loves photography"
+    },
+    {
+        "id": 11,
+        "name": "Carlos",
+        "about": "Backend developer and salsa dancing instructor"
+    },
+    {
+        "id": 12,
+        "name": "Sophie",
+        "about": "System architect and amateur astronomer"
+    }
+]

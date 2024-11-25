@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LuUserCircle, LuUsers } from "react-icons/lu";
 import { Group } from "@chakra-ui/react";
 
@@ -16,10 +16,22 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
+import type { User } from "@/types";
+
 type ControlMode = "userList" | "profile";
 
 export const ControlPanel = () => {
   const [controlMode, setControlMode] = useState<ControlMode>("userList");
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await fetch('/fixtures/users.json');
+      const data = await response.json();
+      setUsers(data);
+    };
+    fetchUsers();
+  }, []);
 
   return (
     <DrawerRoot>
@@ -48,16 +60,20 @@ export const ControlPanel = () => {
           </DrawerTitle>
         </DrawerHeader>
         <DrawerBody>
-          <p>
-            {(() => {
-              switch (controlMode) {
-                case "userList":
-                  return "User List";
-                case "profile":
-                  return "Profile";
-              }
-            })()}
-          </p>
+          {(() => {
+            switch (controlMode) {
+              case "userList":
+                return (
+                  <ul>
+                    {users.map((user) => (
+                      <li key={user.id}>{user.name}</li>
+                    ))}
+                  </ul>
+                );
+              case "profile":
+                return "Profile";
+            }
+          })()}
         </DrawerBody>
         <DrawerCloseTrigger />
       </DrawerContent>
