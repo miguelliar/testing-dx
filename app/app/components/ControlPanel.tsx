@@ -17,12 +17,19 @@ import {
 } from "@/components/ui/drawer";
 
 import type { User } from "@/types";
+interface Profile {
+  name: string;
+  about: string;
+}
 
 type ControlMode = "userList" | "profile";
 
 export const ControlPanel = () => {
   const [controlMode, setControlMode] = useState<ControlMode>("userList");
   const [users, setUsers] = useState<User[]>([]);
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,6 +38,12 @@ export const ControlPanel = () => {
       setUsers(data);
     };
     fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    fetch('/fixtures/profile.json')
+      .then(res => res.json())
+      .then(data => setProfile(data));
   }, []);
 
   return (
@@ -71,7 +84,7 @@ export const ControlPanel = () => {
                   </ul>
                 );
               case "profile":
-                return "Profile";
+                return profile ? <p>{profile.name} - {profile.about}</p> : 'Loading...';
             }
           })()}
         </DrawerBody>
