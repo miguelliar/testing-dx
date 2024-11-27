@@ -61,8 +61,18 @@ h2 {
   </a>
 </div>
 
+
 <!--
-I'm Will Klein, and...
+
+My name is Will Klein, and I'd like to share with you how we can test our way to a better developer experience.
+
+I started Toolspace, a consultancy focused on building great dev tools
+and improving the developer experience for everyone.
+
+Testing is one of my favorite tools and when used correctly, it can help us enjoy writing code even more.
+
+I'd like to share with you how we can do that.
+
 -->
 
 ---
@@ -71,7 +81,25 @@ image: patch.jpg
 ---
 
 <!--
-I have a story from a recent project....
+but first, i ahve a quick story to share
+
+i have a client project where i shipped a big UI feature recently. it was challenging to implement
+
+partly because i was new to the codebase, but also because I felt like the developer experience was lacking
+
+in particular, there were unit tests, but nothing for integration tests or end to end tests.
+
+it was hard to know when i made a change, what it would impact.
+
+and when i shipped my first feature, everything seemed ok, but then a week later, i heard from the client
+
+that my work broke something critical
+
+i actually squinted and thought, i was really careful, maybe too careful, but i couldn't rule this out.
+
+so i stopped what i was doing to investigate. honestly, i wished it was something i did, because fixing that would have been
+
+within my control. somewhat unfortunately, i verified it wasn't my change - which meant the rest of the team had to investigate it
 -->
 
 ---
@@ -80,45 +108,13 @@ image: puzzle.jpg
 ---
 
 <!--
+this is not where anyone wants to be.
+
 It's one thing to have a test failure that you don't understand.
 
 It's much worse when you don't have any test failures, and something is broken, that you don't understand.
--->
 
----
-layout: image
-image: https://unsplash.com/photos/q76EfY6njIw/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MjB8fHN0dW50fGVufDB8fHx8MTY4Mzc4ODIxOXww&force=true&w=1920
----
-
-# Testing our way to a better <br> developer experience
-
-## Will Klein
-
-
-<style>
-h1 {
-  position: absolute;
-  top: 20px;
-  right: 10px;
-  text-align: right;
-  font-size: 50px;
-}
-
-h2 {
-  color: white;
-  position: absolute;
-  top: 120px;
-  right: 10px;
-  text-align: right;
-}
-</style>
-
-<!--
-
-My name is Will Klein, and I'd like to share with you how we can test our way to a better developer experience.
-
-I work on dev experience full-time, and I started Toolspace, a consultancy focused on building great dev tools.
-
+we don't know when the problem was introduced, and instead, we could have maybe caught it immediately if we had some good tests in place
 -->
 
 ---
@@ -129,7 +125,9 @@ font: serif
 
 <!--
 
-So we were missing some tests, and we could write them now, but when should we have written them?
+this brings me to my first lesson (slide)
+
+we were missing some tests, and we could write them now, but when should we have written them?
 
 -->
 
@@ -500,6 +498,7 @@ See you again soon!
 -->
 
 ---
+
 
 ---
 
@@ -1034,7 +1033,7 @@ Double-click on the draggable elements to edit their positions.
 </v-drag>
 ```
 
-<v-drag pos="663,206,261,_,-15"undefined>
+<v-drag pos="663,206,261,_,-15"undefinedundefinedundefinedundefinedundefined>
   <div text-center text-3xl border border-main rounded>
     Double-click me!
   </div>

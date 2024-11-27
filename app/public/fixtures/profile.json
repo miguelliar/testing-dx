@@ -1,5 +1,6 @@
 {
     "id": 1,
     "name": "Will",
-    "about": "The author of this workshop"
+    "about": "The author of this workshop",
+    "locale": "US"
 }

@@ -16,6 +16,7 @@ export default defineConfig({
     process.env.VITEST
       ? react()
       : remix({
+          ignoredRouteFiles: ["**/*.test.*"],
           future: {
             v3_fetcherPersist: true,
             v3_relativeSplatPath: true,

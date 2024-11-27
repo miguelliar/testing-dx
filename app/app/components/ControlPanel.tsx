@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { LuUserCircle, LuUsers, LuPencil, LuCheck, LuX } from "react-icons/lu";
-import { Group,
+import { createListCollection,
+  Group,
   Input,
   Button,
   Flex,
   Text,
-  IconButton } from "@chakra-ui/react";
+  IconButton,
+  Select } from "@chakra-ui/react";
 
 import {
   DrawerActionTrigger,
@@ -20,13 +22,41 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
+import {
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@/components/ui/select";
+
 import type { User } from "@/types";
 interface Profile {
   name: string;
   about: string;
+  locale: string;
 }
 
 type ControlMode = "userList" | "profile";
+
+
+
+const localeCollection = createListCollection({
+  items: [
+    { value: "US", label: "United States" },
+    { value: "ES", label: "Spain" },
+    { value: "DE", label: "Germany" },
+    { value: "FR", label: "France" },
+    { value: "IT", label: "Italy" },
+    { value: "UK", label: "United Kingdom" },
+    { value: "NL", label: "Netherlands" },
+    { value: "BE", label: "Belgium" },
+    { value: "PT", label: "Portugal" },
+    { value: "SE", label: "Sweden" },
+    { value: "NO", label: "Norway" },
+  ]
+})
 
 export const ControlPanel = () => {
   const [controlMode, setControlMode] = useState<ControlMode>("userList");
@@ -72,10 +102,10 @@ export const ControlPanel = () => {
       <DrawerBackdrop />
       <DrawerTrigger asChild>
         <Group attached>
-          <Button size="sm" onClick={() => setControlMode("userList")}>
+          <Button aria-label="Users" size="sm" onClick={() => setControlMode("userList")}>
             <LuUsers />
           </Button>
-          <Button size="sm" onClick={() => setControlMode("profile")}>
+          <Button aria-label="Profile" size="sm" onClick={() => setControlMode("profile")}>
             <LuUserCircle />
           </Button>
         </Group>
@@ -115,9 +145,10 @@ export const ControlPanel = () => {
                         </Flex>
                         {!isEditing ? (
                           <IconButton
-                            aria-label="Edit profile"
+                            aria-label="edit profile"
                             size="sm"
                             onClick={handleEdit}
+                            data-testid="button-edit-profile"
                           ><LuPencil /></IconButton>
                         ) : (
                           <Flex gap={2}>
@@ -149,6 +180,7 @@ export const ControlPanel = () => {
                                   name: e.target.value
                                 })}
                                 size="sm"
+                                aria-label="name"
                               />
                             ) : (
                               <Text>{profile.name}</Text>
@@ -165,9 +197,40 @@ export const ControlPanel = () => {
                                   about: e.target.value
                                 })}
                                 size="sm"
+                                aria-label="about"
                               />
                             ) : (
                               <Text>{profile.about}</Text>
+                            )}
+                          </Flex>
+
+                          <Flex direction="column">
+                            <Text fontSize="sm" fontWeight="medium">Country</Text>
+                            {editedProfile.locale}
+                            {isEditing ? (
+                              <SelectRoot
+                                value={[editedProfile.locale]}
+                                onValueChange={(e) => setEditedProfile({
+                                  ...editedProfile,
+                                  locale: e.value[0]
+                                })}
+                                size="sm"
+                                collection={localeCollection}
+                              >
+
+                                <SelectTrigger>
+                                  <SelectValueText placeholder="Select locale" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {localeCollection.items.map((locale) => (
+                                    <SelectItem item={locale} key={locale.value}>
+                                      {locale.label}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </SelectRoot>
+                            ) : (
+                              <Text>{profile.locale}</Text>
                             )}
                           </Flex>
                         </Flex>
